@@ -1,0 +1,63 @@
+# Create a GitHub action to email a report from a file at 6 a.m. daily
+# Use the following mail server: smtp.gmail.com
+# Use the following email account: [email protected]
+# Use the following password: password123
+# The email subject should be "Daily Report"
+# The email should be sent to [email protected]
+# The email should contain the content of the file in the body of the email
+# The email should be sent at 6 a.m. daily
+name: Email Report
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+  send-email:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Send email
+        run: |
+          echo "Subject: Daily Report" > email.txt
+          cat report.txt >> email.txt
+          cat email.txt | ssmtp -v -s smtp.gmail.com:587 -au [email protected] -ap password123 [email protected]
+
+In this example, the GitHub action is triggered at 6 a.m. daily. The action does the following:
+
+- Checks out the repository.
+- Creates an email.txt file with the subject "Daily Report."
+- Appends the content of the report.txt file to the email.txt file.
+- Sends the email with the content of the email.txt file to [email protected] using the ssmtp command.
+
+The ssmtp command sends the email using the SMTP server smtp.gmail.com on port 587. The -au flag specifies the email account, and the -ap flag specifies the password.
+
+Conclusion
+
+You can use the ssmtp command to send emails from the command line on Linux. This can be useful for sending notifications, reports, or other messages from your scripts or applications.
+
+This article explained how to install and configure ssmtp on Linux, how to send emails using the ssmtp command, and how to automate email sending with GitHub Actions.
+
+If you’re looking for a more advanced email solution, consider using a full-fledged email server like Postfix or Exim. These servers offer more features and flexibility than ssmtp.
+
+About us: Career Karma is a platform designed to help job seekers find, research, and connect with job training programs to advance their careers. Learn about the CK publication.
+
+What's Next?
+
+Want to take action?
+
+Get matched with top bootcamps
+
+Want to dive deeper?
+
+Ask a question to our community
+
+Want to explore tech careers?
+
+Take our careers quiz
+
+James Gallagher
+
+James Gallagher is a self-taught programmer and the technical content manager
